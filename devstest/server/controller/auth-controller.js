@@ -17,10 +17,11 @@ const signup = async(req, res) =>{
         const userExist =  await User.findOne({email});
 
         if(userExist){
-            return res.status(400).send({msg:"email already exist"+userExist});
+            const userId= userExist._id 
+            return res.status(400).send({msg:"email already exist"+userId});
         }  
        const newUser =  await User.create({username, email, password});
-        res.status(200).json({newUser});
+        res.status(201).json({newUser});
 
 
     }
@@ -35,7 +36,7 @@ const login = async(req, res) =>{
         res.status(200).send("WELCOME TO LOGIN PAGE");
     }
     catch(error){
-        res.status(400).send({msg:"PAGE NOT FOUND"});
+        res.status(400).json({msg:"PAGE NOT FOUND"});
     }
 }
 
