@@ -1,4 +1,3 @@
-
 const User = require('../models/user');
 //HOME PAGE LOGIC
 const home = async(req, res) =>{
@@ -12,7 +11,8 @@ const home = async(req, res) =>{
 
 //SIGNUP PAGE LOGIC
 const signup = async(req, res) =>{
-console.log({req.body});
+const data = req.body;
+console.log({data});
     try{
         const {username, email, contrycode, mobileno, password, gender, dob} = req.body;
         const userExist =  await User.findOne({email});
