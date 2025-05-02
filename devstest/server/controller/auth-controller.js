@@ -21,7 +21,7 @@ console.log({data});
             const userId= userExist._id 
             return res.status(400).send({msg:"email already exist"+userId});
         }  
-       const newUser =  await User.create({username, email, password});
+       const newUser =  await User.create({username, email, contrycode, mobileno, password, gender, dob});
         res.status(201).json({newUser});
 
 
