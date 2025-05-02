@@ -14,14 +14,14 @@ const signup = async(req, res) =>{
 const data = req.body;
 console.log({data});
     try{
-        const {username, email, contrycode, mobileno, password, gender, dob} = req.body;
+        const {username, email, countrycode, mobileno, password, gender, dob} = req.body;
         const userExist =  await User.findOne({email});
 
         if(userExist){
             const userId= userExist._id 
             return res.status(400).send({msg:"email already exist"+userId});
         }  
-       const newUser =  await User.create({username, email, contrycode, mobileno, password, gender, dob});
+       const newUser =  await User.create({username, email, countrycode, mobileno, password, gender, dob});
         res.status(201).json({newUser});
 
 
