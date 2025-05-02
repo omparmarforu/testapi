@@ -13,7 +13,7 @@ const home = async(req, res) =>{
 //SIGNUP PAGE LOGIC
 const signup = async(req, res) =>{
     try{
-        const {username, email, contrycode, mobileno, password, age, gender, dob} = req.body;
+        const {username, email, contrycode, mobileno, password, gender, dob} = req.body;
         const userExist =  await User.findOne({email});
 
         if(userExist){
