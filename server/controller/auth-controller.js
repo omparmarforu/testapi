@@ -1,42 +1,110 @@
-
 const User = require('../models/user');
-//HOME PAGE LOGIC
-const home = async(req, res) =>{
-    try{
-        res.status(200).send("WELCOME TO HOME PAGE");
+//const bcrypt = require('bcryptjs');
+//const jwt = require("jsonwebtoken");
+
+const home = async (req, res) => {
+  try{
+    res.status(200).json({msg:"WELCOME TO HOME PAGE"});
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+const signup = async (req, res) => {
+  console.log({'Body': req.body});
+  try{
+    const {username, email, countrycode, mobileno, password, gender, dob} = req.body;
+    const userExist = await User.findOne({email:email});
+    
+    if(userExist){
+      return res.status(400).json({msg:"Email ID already exist !"});
     }
-    catch(error){
-        console.log(error);
-    }
+
+    const createUser = await User.create({username, email, countrycode, mobileno, password, gender, dob});
+    return   res.status(201).json({
+      msg: createUser,
+      token: await createUser.generateToken(),
+      userId: createUser._id.toString(),
+  
+    });
+    
+  }    
+  catch(err){
+    console.log(err);
+  } 
 }
 
-//SIGNUP PAGE LOGIC
-const signup = async(req, res) =>{
-    try{
-        const {username, email, password} = req.body;
-        const userExist =  await User.findOne({email});
+const login = async (req, res) =>{
+try{
+ const {email, password} = req.body;
+ const userExist = await User.findOne({email});
 
-        if(userExist){
-            return res.status(400).send({msg:"email already exist"+userExist});
-        }  
-       const newUser =  await User.create({username, email, password});
-        res.status(200).json({newUser});
+ if(!userExist){
+  return res.status(400).json({msg:"Invalid Credencials"});
+ }
+const checkPass = await userExist.comparePassword(password);
+if(checkPass){
+  res.status(201).json({
+    msg: "Login Successfully",
+    token : await userExist.generateToken(),
+    userId : userExist._id.toString(),
+    username : userExist.username,
 
 
-    }
-    catch(error){
-        res.status(500).json({msg:"PAGE NOT npm startFOUND"+error});
-    }
+  });
+}
+else{
+  res.status(401).json({msg:"Invalid Credencials"});
+}
+}
+catch(err){
+  console.log(err);
+  } 
 }
 
-//LOGIN PAGE LOGIC
-const login = async(req, res) =>{
-    try{
-        res.status(200).send("WELCOME TO LOGIN PAGE");
-    }
-    catch(error){
-        res.status(400).send({msg:"PAGE NOT FOUND"});
-    }
-}
+
 
 module.exports = { home,signup,login };
+/*const pWheel = require('../models/picwheel');
+const pWheelMedia = require('../models/picwheelmedia');
+
+const picWheel = async (req, res) => {
+  try {
+    const { userid, wheelid, wheelno, wheeltitle } = req.body;
+
+    const wheelcoverFile = req.files?.wheelcover?.[0];
+    const mediaFiles = req.files?.media || [];
+
+    if (!wheelcoverFile) {
+      return res.status(400).json({ error: 'Wheel cover image is missing.' });
+    }
+
+    const wheelcover = wheelcoverFile.path; // Cloudinary image URL
+
+    //  Create Wheel
+    const wheel = await pWheel.create({
+      userid,
+      wheelno,
+      wheeltitle,
+      wheelcover
+    });
+
+    // Create Media Entries
+    const mediaDocs = mediaFiles.map(file => ({
+      userid,
+      wheelid: wheel._id,
+      mediaUrl: file.path, // Cloudinary URL
+      type: file.mimetype.startsWith('video') ? 'video' : 'image'
+    }));
+
+    const wheelMedia = await pWheelMedia.insertMany(mediaDocs);
+
+    res.status(201).json({ picwheel: wheel, media: wheelMedia });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};*/
+
+
