@@ -34,8 +34,13 @@ const picWheel = async (req, res) => {
       }));
   
       const wheelMedia = await pWheelMedia.insertMany(mediaDocs);
-  
+    if(wheel && wheelMedia){
       res.status(201).json({ picwheel: wheel, media: wheelMedia });
+      }
+      else{
+      res.status(401).json({msg : "FAILED TO ADD DATA"});
+      }
+      //res.status(201).json({ picwheel: wheel, media: wheelMedia });
     } catch (err) {
       console.error("ERROR:", JSON.stringify(err, null, 2)); // Proper error logging
   res.status(500).json({ error: err.message || 'An unexpected error occurred', details: err });
