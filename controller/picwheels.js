@@ -3,7 +3,7 @@ const pWheel = require('../models/picwheel');
 const pWheelMedia = require('../models/picwheelmedia');
 
 
-const picWheel = async (req, res) => {
+const createWheel = async (req, res) => {
   https://github.com/omparmarforu/testapi
     try {
       const { userid, wheelid, wheelno, wheeltitle } = req.body;
@@ -62,7 +62,7 @@ const picWheel = async (req, res) => {
     try{
       const wheelMedia = await pWheelMedia.findById({wheelid : wheelData._id});
       res.status(200).json({
-        success: true,
+        success: true,    
         data: wheelMedia  
       });
     }
@@ -70,4 +70,4 @@ const picWheel = async (req, res) => {
       res.status(500).json({ success: false, error: err.message });
     }
   }
-  module.exports = {picWheel, getWheel, getWheelMedia};
+  module.exports = {createWheel, getWheel, getWheelMedia};
