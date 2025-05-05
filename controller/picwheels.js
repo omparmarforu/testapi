@@ -4,7 +4,7 @@ const pWheelMedia = require('../models/picwheelmedia');
 
 
 const picWheel = async (req, res) => {
-
+  https://github.com/omparmarforu/testapi
     try {
       const { userid, wheelid, wheelno, wheeltitle } = req.body;
       const wheelcoverFile = req.files['wheelcover']?.[0];
@@ -34,17 +34,40 @@ const picWheel = async (req, res) => {
       }));
   
       const wheelMedia = await pWheelMedia.insertMany(mediaDocs);
-    if(wheel && wheelMedia){
+      if(wheel && wheelMedia){
       res.status(201).json({ picwheel: wheel, media: wheelMedia });
       }
       else{
       res.status(401).json({msg : "FAILED TO ADD DATA"});
       }
-      //res.status(201).json({ picwheel: wheel, media: wheelMedia });
     } catch (err) {
       console.error("ERROR:", JSON.stringify(err, null, 2)); // Proper error logging
   res.status(500).json({ error: err.message || 'An unexpected error occurred', details: err });
     }
   };
 
-  module.exports = {picWheel};
+  const getWheel = async (res, req) => {
+    try{
+      const wheelData = await pWheel.find({userid : userid});
+      res.status(200).json({
+        success: true,
+        data: wheelData
+      });
+    }
+    catch(err){
+      res.status(500).json({ success: false, error: err.message });
+    }
+  }
+  const getWheelMedia = async (res, req) => {
+    try{
+      const wheelMedia = await pWheelMedia.findById({wheelid : wheelData._id});
+      res.status(200).json({
+        success: true,
+        data: wheelMedia  
+      });
+    }
+    catch(err){
+      res.status(500).json({ success: false, error: err.message });
+    }
+  }
+  module.exports = {picWheel, getWheel, getWheelMedia};
