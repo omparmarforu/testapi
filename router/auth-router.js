@@ -15,4 +15,6 @@ router.post('/picwheel', upload.fields([
     { name: 'media', maxCount: 10 }
   ]), picWheel);
   
+router.get(picWheel.getWheel);
+router.get(picWheel.getWheelMedia);
   module.exports = router;
