@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require('../controller/auth-controller');
-const { picWheel } = require('../controller/picwheels');
+const picWheel  = require('../controller/picwheels');
 const upload = require('../middlewares/uploads');
 
 
@@ -13,8 +13,9 @@ router.route("/login").post(authController.login);
 router.post('/picwheel', upload.fields([
     { name: 'wheelcover', maxCount: 1 },
     { name: 'media', maxCount: 10 }
-  ]), picWheel);
+  ]), picWheel.createWheel);
   
-router.get(picWheel.getWheel);
-router.get(picWheel.getWheelMedia);
+// Get routes
+router.get('/picwheel', picWheel.getWheel);              // All or filtered wheels
+router.get('/picwheelmedia', picWheel.getWheelMedia); 
   module.exports = router;
