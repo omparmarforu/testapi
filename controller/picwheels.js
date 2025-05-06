@@ -63,7 +63,7 @@ const createWheel = async (req, res) => {
   }
   const getWheelMedia = async (req, res) => {
     try{
-      const wheelid = req.query;
+      const { wheelid }= req.query;
       if(!wheelid) return res.status(400).json({ error: "Missing wheelid" });
       const wheelMedia = await pWheelMedia.find({wheelid : new mongoose.Types.ObjectId(wheelid)});
       res.status(200).json({
