@@ -41,14 +41,16 @@ const createWheel = async (req, res) => {
       res.status(401).json({msg : "FAILED TO ADD DATA"});
       }
     } catch (err) {
-      console.error("ERROR:", JSON.stringify(err, null, 2)); // Proper error logging
+      console.error("ERROR:", JSON.stringify(err, null, 2)); 
   res.status(500).json({ error: err.message || 'An unexpected error occurred', details: err });
     }
   };
 
-  const getWheel = async (res, req) => {
+  const getWheel = async (req, res) => {
     try{
-      const wheelData = await pWheel.find({userid : userid});
+      const { userid } = req.query;
+      if (!userid) return res.status(400).json({ error: "Missing userid" });
+      const wheelData = await pWheel.find({userid});
       res.status(200).json({
         success: true,
         data: wheelData
@@ -58,9 +60,11 @@ const createWheel = async (req, res) => {
       res.status(500).json({ success: false, error: err.message });
     }
   }
-  const getWheelMedia = async (res, req) => {
+  const getWheelMedia = async (req, res) => {
     try{
-      const wheelMedia = await pWheelMedia.findById({wheelid : wheelData._id});
+      const wheelid = req.query;
+      if(!wheelid) return res.status(400).json({ error: "Missing wheelid" });
+      const wheelMedia = await pWheelMedia.findById({wheelid});
       res.status(200).json({
         success: true,    
         data: wheelMedia  
