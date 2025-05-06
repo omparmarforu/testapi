@@ -64,7 +64,7 @@ const createWheel = async (req, res) => {
     try{
       const wheelid = req.query;
       if(!wheelid) return res.status(400).json({ error: "Missing wheelid" });
-      const wheelMedia = await pWheelMedia.find({wheelid});
+      const wheelMedia = await pWheelMedia.find({wheelid : wheelid});
       res.status(200).json({
         success: true,    
         data: wheelMedia  
