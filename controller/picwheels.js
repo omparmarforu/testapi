@@ -1,4 +1,5 @@
 //PIC WHEEL LOGIC
+const mongoose = require('mongoose');
 const pWheel = require('../models/picwheel');
 const pWheelMedia = require('../models/picwheelmedia');
 
