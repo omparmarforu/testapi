@@ -2,10 +2,11 @@
 const mongoose = require('mongoose');
 const pWheel = require('../models/picwheel');
 const pWheelMedia = require('../models/picwheelmedia');
+//const pWheelLike = require('../models/likes');
 
 
 const createWheel = async (req, res) => {
-  https://github.com/omparmarforu/testapi
+
     try {
       const { userid, wheelid, wheelno, wheeltitle } = req.body;
       const wheelcoverFile = req.files['wheelcover']?.[0];
@@ -66,6 +67,7 @@ const createWheel = async (req, res) => {
       const { wheelid }= req.query;
       if(!wheelid) return res.status(400).json({ error: "Missing wheelid" });
       const wheelMedia = await pWheelMedia.find({wheelid : new mongoose.Types.ObjectId(wheelid)});
+      //const getLikeCounter = await pWheelLikes.countDocuments
       res.status(200).json({
         success: true,    
         data: wheelMedia  
