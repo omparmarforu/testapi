@@ -36,6 +36,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) =>{
 try{
+ console.log("BODY RECEIVED:", req.body); 
  const {email, password} = req.body;
  const userExist = await User.findOne({email});
 
