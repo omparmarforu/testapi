@@ -4,7 +4,7 @@ const router = require("./router/auth-router");
 const connectDB = require("./utils/db");
 
 api.use(express.json());
-api.use("/api/auth/", router);
+api.use("/api/auth", router);
 
 const PORT = 5000;
 connectDB().then(()=>{
