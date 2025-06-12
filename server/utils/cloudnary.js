@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'picwheels',
-    resource_type: 'auto', // critical for videos
+    resource_type: 'auto', 
     allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'mp4']
   }
 });
