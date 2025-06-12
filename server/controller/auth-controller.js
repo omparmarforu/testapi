@@ -10,17 +10,17 @@ const home = async (req, res) => {
     console.log(err);
   }
 }
-const signup = async (req, res) => {
+const register = async (req, res) => {
   console.log({'Body': req.body});
   try{
-    const {username, email, countrycode, mobileno, password, gender, dob} = req.body;
+    const {name, username, email, countrycode, mobileno, password, gender, dob} = req.body;
     const userExist = await User.findOne({email:email});
     
     if(userExist){
       return res.status(400).json({msg:"Email ID already exist !"});
     }
 
-    const createUser = await User.create({username, email, countrycode, mobileno, password, gender, dob});
+    const createUser = await User.create({name, username, email, countrycode, mobileno, password, gender, dob});
     return   res.status(201).json({
       msg: createUser,
       token: await createUser.generateToken(),
@@ -58,13 +58,14 @@ else{
 }
 }
 catch(err){
-  console.log(err);
+  console.log("LOGIN ERROR - ".err);
+  res.status(401).json({msg:"Login Error - "+err});
   } 
 }
 
 
 
-module.exports = { home,signup,login };
+module.exports = { home,register,login };
 /*const pWheel = require('../models/picwheel');
 const pWheelMedia = require('../models/picwheelmedia');
 
