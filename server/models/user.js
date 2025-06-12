@@ -4,13 +4,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
+"name" : {type: String, required: true},
 "username": {type: String, required: true},
 "email" : {type: String, required: true},
-"countrycode" : {type:String, required: true},
-"mobileno" : {type:Number, required: true},
+"countrycode" : {type:String, required: false},
+"mobileno" : {type:Number, required: false},
 "password" : {type: String, required: true},
-"gender" : {type: String, required: true},
-"dob" : {type:String, required: true},
+"gender" : {type: String, required: false},
+"dob" : {type:String, required: false},
 });
 
 //secure pasword using bcrypt
@@ -43,7 +44,7 @@ return jwt.sign({
 },
 process.env.JWT_KEY,
 {
-    expiresIn : "30d"
+    expiresIn : "1d"
 }
 
 );
@@ -53,6 +54,20 @@ catch(error){
     console.error(error);
 }
 };
+
+// decode token
+const decodeToken = (token) => {
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        return decoded; // { userId: "...", email: "...", iat: ..., exp: ... }
+    } catch (error) {
+        console.error("Invalid or expired token:", error);
+        return null;      
+
+        
+    }
+};
+
 
 const User = new mongoose.model("User",userSchema);
 module.exports = User;
