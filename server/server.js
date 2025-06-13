@@ -4,6 +4,7 @@ const router = require("./router/auth-router");
 const connectDB = require("./utils/db");
 
 api.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 api.use("/api/auth", router);
 
 const PORT = 5000;
